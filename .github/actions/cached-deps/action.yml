@@ -1,10 +1,10 @@
 name: 'Get and Cache dependencies'
 description: "Get the dependencies (via npm) and cache them."
 inputs:
-caching:
-  description: 'Whether to cache dependencies or not'
-  required: false
-  default: 'true'
+  caching:
+    description: 'Whether to cache dependencies or not'
+    required: false
+    default: 'true'
 outputs: 
   used-cache:
     description: 'Whether the cache was used.'
