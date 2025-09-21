@@ -64,6 +64,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy
         #run: echo "Deploying..."
         uses: ./.github/actions/deploy-s3-javascript
         env:
@@ -74,4 +75,7 @@ jobs:
           bucket: gha-custom-action-hosting #creer sur AWS
           dist-folder: ./dist
           #bucket-region: us-east-2
+      - name: Output website URL
+        run: |
+          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
   
