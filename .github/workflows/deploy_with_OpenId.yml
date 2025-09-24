@@ -70,7 +70,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v5
         with:
           # copier depuis AWS id provider
-          role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsRole
+          role-to-assume: arn:aws:iam::072712434523:role/provider_for-gh-actions
           aws-region: us-east-2
       - name: Deploy site
         id: deploy
@@ -78,7 +78,7 @@ jobs:
         uses: ./.github/actions/deploy-s3-docker
         
         with:
-          bucket: gha-custom-action-hosting #creer sur AWS
+          bucket: emard-s3-demo #creer sur AWS
           dist-folder: ./dist
           #bucket-region: us-east-2
       - name: Output website URL
