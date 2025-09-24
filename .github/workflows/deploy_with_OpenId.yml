@@ -65,9 +65,8 @@ jobs:
           name: dist-files
           path: ./dist
       - name: Output contents
-        run: |
-          ls
-          pip install legacy-cgi
+        run: ls
+        
       - name: Get AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
@@ -82,7 +81,7 @@ jobs:
         with:
           bucket: emard-s3-demo #creer sur AWS
           dist-folder: ./dist
-          #bucket-region: us-east-2
+          bucket-region: us-east-2
       - name: Output website URL
         run: |
           echo "Live URL: ${{ steps.deploy.outputs.website-url }}"

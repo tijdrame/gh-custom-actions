@@ -50,7 +50,38 @@ jobs:
         with:
           name: dist-files
           path: dist
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get code
+  #       uses: actions/checkout@v5
+  #     - name: Get build artifacts
+  #       uses: actions/download-artifact@v5
+  #       with:
+  #         name: dist-files
+  #         path: ./dist
+  #     - name: Output contents
+  #       run: ls
+  #     - name: Deploy site
+  #       id: deploy
+  #       #run: echo "Deploying..."
+  #       uses: ./.github/actions/deploy-s3-docker
+  #       env:
+  #         #create acces key et secret key sur AWS
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       with:
+  #         bucket: gha-custom-action-hosting #creer sur AWS
+  #         dist-folder: ./dist
+  #         #bucket-region: us-east-2
+  #     - name: Output website URL
+  #       run: |
+  #         echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
   deploy:
+    permissions: 
+      id-token: write
+      contents: read
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -63,19 +94,22 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+        
+      - name: Get AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          # copier depuis AWS id provider
+          role-to-assume: arn:aws:iam::072712434523:role/provider_for-gh-actions
+          aws-region: us-east-2
       - name: Deploy site
         id: deploy
         #run: echo "Deploying..."
         uses: ./.github/actions/deploy-s3-docker
-        env:
-          #create acces key et secret key sur AWS
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
         with:
-          bucket: gha-custom-action-hosting #creer sur AWS
+          bucket: emard-s3-demo #creer sur AWS
           dist-folder: ./dist
-          #bucket-region: us-east-2
+          bucket-region: us-east-2
       - name: Output website URL
         run: |
           echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
-  
