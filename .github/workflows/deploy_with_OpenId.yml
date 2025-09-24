@@ -65,7 +65,9 @@ jobs:
           name: dist-files
           path: ./dist
       - name: Output contents
-        run: ls
+        run: |
+          ls
+          pip install legacy-cgi
       - name: Get AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
