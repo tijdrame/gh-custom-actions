@@ -1,4 +1,4 @@
-name: Deployment
+name: Deployment with open ID
 on:
   push:
     branches:
